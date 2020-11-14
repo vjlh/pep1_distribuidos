@@ -4,9 +4,10 @@ import com.distribuidos.comisaria.Models.TemporaryPass;
 import com.distribuidos.comisaria.Repositories.TemporaryPassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import java.sql.Timestamp;
+
+import java.sql.Date;
 import java.util.ArrayList;
+
 
 
 @RestController
@@ -23,7 +24,7 @@ public class TemporaryPassController{
 
     @PostMapping("/newTemporarypass")
     public TemporaryPass createTemporaryPass(@RequestBody TemporaryPass newTemporaryPass){
-        newTemporaryPass.setRequestDate(new Timestamp(System.currentTimeMillis()));
+        newTemporaryPass.setRequestDate(new Date(System.currentTimeMillis()));
         newTemporaryPass.setLimitDate(newTemporaryPass.sumarHoras(newTemporaryPass.getRequestDate(), 2));
         return temporaryPassRepository.save(newTemporaryPass);
     }
