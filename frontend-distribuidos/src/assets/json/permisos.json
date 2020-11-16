@@ -1,0 +1,104 @@
+[
+{
+"id": 1,
+"pass": "Asistencia a establecimientos de salud",
+"description": "Asistencia a centros, servicios y establecimientos de salud por hora concertada con anterioridad y/o tratamiento médico. El solicitante deberá indicar el nombre del médico que lo atenderá, el horario de atención y el establecimiento o lugar de la misma. En este caso, la persona puede ir con un acompañante.",
+"duration": "3 horas."
+	
+},
+{
+"id": 2,
+"pass": "Compras insumos básicos",
+"description": "Asistencia a farmacias, supermercados, mercados y/o lugares de venta de insumos básicos, ya sea para la compra de alimentos, medicamentos y/u otros insumos básicos.",
+"duration": "3 horas."
+	
+},
+{
+"id": 3,
+"pass": "Salida de personas con espectro autista u otra discapacidad mental",
+"description": "Salida de persona con trastorno del espectro autista u otro tipo de discapacidad mental, ya sea de origen psíquico o intelectual, con su respectivo cuidador o acompañante, quienes deberán exhibir a la autoridad fiscalizadora la Credencial de Discapacidad, Certificado de Discapacidad del Registro Civil o Certificado Médico que indique el Diagnóstico Trastorno del Espectro Autista. El permiso deberá ser solicitado por el respectivo cuidador o acompañante, mayor de 14 años.",
+"duration": "2 horas."
+	
+},
+{
+"id": 4,
+"pass": "Asistencia a establecimientos de salud",
+"description": "Pasear a mascotas o animales que estén bajo su cuidado, con desplazamiento reducido dentro de las dos cuadras a la redonda del domicilio o residencia.",
+"duration": "30 minutos."
+},
+{
+"id": 5,
+"pass": "Pago de servicios básicos y gestiones",
+"description": "Pago de servicios básicos; cobros de pensiones y gestiones de pago ante el sistema de AFP, subsidios o beneficios estatales y/o municipales, seguros de cesantía, obtención de clave única; trámites ante el Servicio de Registro Civil e Identificación, gestiones bancarias o notariales, y asistencia a plantas de revisión técnica.",
+"duration": "3 horas."
+	
+},
+{
+"id": 6,
+"pass": "Asistencia a funeral familiar directo",
+"description": "Asistencia a funerales de familiares directos. Duración: 5 horas de libre tránsito si reside en la misma región del funeral, y 24 horas si el funeral se realiza en una región distinta a la de su residencia.",
+"duration": "30 minutos."
+	
+},
+{
+"id": 7,
+"pass": "Proceso de postulación al Sistema de Admisión Escolar, retiro de alimentos, textos escolares y/o artículos tecnológicos",
+"description": "Proceso de postulación al Sistema de Admisión Escolar, retiro de alimentos, textos escolares y/o artículos tecnológicos para fines escolares desde organismos públicos, tales como JUNAEB, establecimientos escolares u otros.",
+"duration": "5 horas."	
+},
+{
+"id": 8,
+"pass": "Comparecencia a una citación en virtud de la Ley",
+"description": "Comparecencia a una citación a la que un abogado u otra persona deba concurrir en virtud de la ley. El solicitante deberá adjuntar copia de la citación judicial respectiva.",
+"duration": "12 horas."
+},
+{
+"id": 9,
+"pass": "Entregar alimentos u otros insumos de primera necesidad a adultos mayores",
+"description": "Llevar alimentos, medicamentos o artículos de primera necesidad a adultos mayores, evitando el contacto directo o físico con los mismos.",
+"duration": "2 horas."
+},
+{
+"id": 10,
+"pass": "Proporcionar alimentos o insumos de primera necesidad en Recinto Penitenciario",
+"description": "Llevar a recintos penitenciarios, de acuerdo a las reglas dispuestas por Gendarmería de Chile, alimentos, medicamentos o artículos de primera necesidad.",
+"duration": "3 horas."
+},
+{
+"id": 11,
+"pass": "Traslado del menor o adolescente al hogar del tutelar",
+"description": "Permiso Temporal para realizar traslado de niños, niñas o adolescentes al hogar del padre o madre tutelar, en virtud de un régimen de visitas cursado previo al periodo de cuarentena.",
+"duration": "2 horas."
+},
+{
+"id": 12,
+"pass": "Traslado de padres o tutores a establecimientos de Salud o Centros de SENAME",
+"description": "Traslado y permanencia de padre, madre o tutor a establecimientos de salud para visitar a personas con discapacidad y dependencia, que se encuentren hospitalizadas en dichos recintos. También se podrá solicitar esta autorización para concurrir a centros con dependencia de SENAME de acuerdo con las reglas internas de cada establecimiento para sus visitas.",
+"duration": "3 horas."
+},
+{
+"id": 13,
+"pass": "Permiso para donantes de sangre",
+"description": "Este permiso autoriza a personas que sean donantes de sangre y que cuenten con hora reservada en un centro de donación habilitado. Tendrá una duración de 3 horas para donantes de sangre y podrá ser solicitado una vez cada 90 días.",
+"duration": "6 horas."
+},
+{
+"id": 14,
+"pass": "Matrimonio y Unión Civil",
+"description": "Este permiso podrá ser solicitado por una sola vez, ingresando el RUN de ambos contrayentes, los que podrán incluir hasta 10 acompañantes.",
+"duration": "4 horas."
+},
+{
+"id": 15,
+"pass": "Salida de Niños, Niñas y Adolescentes",
+"description": "Este permiso podrá ser solicitado los días martes, miércoles y viernes, entre las 10:30 y las 12:00 horas, o entre las 16:30 y las 18:00 horas, una vez cada día, alejándose hasta 1 kilómetro a la redonda del domicilio.",
+"duration": "90 minutos."
+},
+{
+"id": 16,
+"pass": "Permiso de Traslado Interregional",
+"description": "Habilita para el traslado interregional, ida y vuelta, desde y hacia comunas que se encuentren en Paso Preparación, Paso Apertura Inicial o Paso Apertura Avanzada (Pasos 3, 4 y 5), sin limitaciones de tiempo de estadía, pudiendo pernoctarse en el destino, incluyendo hoteles y análogos. Podrá ser solicitado, dentro de las 24 horas anteriores a la fecha del viaje, ingresando los datos personales del titular y de los acompañantes menores de 14 años, la fecha de salida y las direcciones de origen y destino. Las personas mayores de 14 años deberán obtener un permiso como titular",
+"duration": "24 horas."	
+}
+
+]
