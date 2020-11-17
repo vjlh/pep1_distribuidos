@@ -1,36 +1,22 @@
 <template >
-  <v-container
-	fluid
-	class="background"
-  >
-  <v-snackbar
-	v-model="credentialValidation"
-	:color="snackBarColor"
-	:timeout="timeout"
-	top>
-	{{credentialValidationText}}
-	<v-btn
-	  dark
-	  text
-	  @click="credentialValidation = false">
-	  <v-icon>mdi-close-circle-outline</v-icon>
-	</v-btn>
-  </v-snackbar>
-	<v-row
-	  align="center"
-	  justify="center"
-	>
-	  <v-col
-		cols="11"
-		sm="8"
-		md="7"
-		class="glass"
-	  >
-		 
-		<v-card 
-		  color="transparent"
-		  outlined
-		  >
+  <v-container>
+    <v-snackbar
+        v-model="statusForm"
+        :color="snackBarColor"
+        :timeout="timeout"
+        top>
+        {{statusFormText}}
+        <v-btn
+          dark
+          text
+          @click="statusForm = false">
+          <v-icon>mdi-close-circle-outline</v-icon>
+        </v-btn>
+    </v-snackbar>
+  <v-card
+    color="transparent"
+    outlined
+    >
 		  <v-card-title class="justify-center"> <h2 class="titleName">Solicitud de Permiso</h2></v-card-title>
 		   <v-divider/>
 		   
@@ -45,22 +31,33 @@
           no-gutters>
 
           <!-- CAMPO MOTIVO -->
-          <v-col cols="11" md="8">
-            <v-autocomplete
+          <v-col cols="11" md="9">
+            <v-select
+              v-model="temporaryPassData.reason"
               outlined
               background-color="white"
               label="Motivo del permiso"
               prepend-icon="mdi-text-subject"
               :rules="[rules.required]"
               :items="items"
-              item-text="pass"
-            ></v-autocomplete>
+              item-value="pass"
+              single-line
+            >
+            <template slot="selection" slot-scope="data">
+              <!-- HTML that describe how select should render selected items -->
+              {{ data.item.id }} - {{ data.item.pass}}
+            </template>
+            <template slot="item" slot-scope="data">
+              <!-- HTML that describe how select should render items when the select is open -->
+              {{ data.item.id }} - {{ data.item.pass}}
+            </template>
+            </v-select>
           </v-col> 
           
           <!-- CAMPO NOMBRE -->
           <v-col cols="11" md="5">
             <v-text-field
-            v-model="name"
+            v-model="temporaryPassData.name"
             label="Nombre"
             outlined
             name="name"
@@ -74,7 +71,7 @@
           <!-- CAMPO APELLIDO -->
           <v-col cols="11" md="5">
             <v-text-field
-            v-model="lastname"
+            v-model="temporaryPassData.lastname"
             label="Apellido"
             outlined
             name="lastname"
@@ -87,10 +84,10 @@
           <!-- CAMPO RUT -->
           <v-col cols="11" md="5">
             <v-text-field
-            v-model="pymeRut"
+            v-model="temporaryPassData.rut"
             label="Rut"
             outlined
-            name="pymeRut"
+            name="rut"
             prepend-icon="mdi-card-account-details-outline"
             :rules="[rules.required]"
             background-color="white"
@@ -100,7 +97,7 @@
           <!-- CAMPO CORREO -->
           <v-col cols="11" md="5">
             <v-text-field
-            v-model="email"
+            v-model="temporaryPassData.email"
             label="Correo"
             outlined
             name="login"
@@ -109,44 +106,30 @@
             :rules="[rules.required, rules.email]"
             background-color="white"
             ></v-text-field>
-          </v-col> 
+          </v-col>
 
-          <!--        DATOS PYME          -->
-
-          <v-col cols="11" md="5">
+          <!--        CAMPO DIRECCIÓN          -->
+          <v-col class="columna" cols="11" md="5">
             <v-text-field
-            v-model="pymeName"
-            label="Dirección"
+            v-model="temporaryPassData.address"
+            label="Dirección Completa"
             outlined
-            name="pymeName"
+            name="address"
             prepend-icon="mdi-map-marker"
             type="text"
             :rules="[rules.required]"
             background-color="white"
             ></v-text-field>
           </v-col>
-
-          <!-- CAMPO RUT PYME -->
           <v-col cols="11" md="5">
-            <v-text-field
-            v-model="pymeRut"
-            label="Número"
-            outlined
-            name="pymeRut"
-            prepend-icon="mdi-pound-box-outline"
-            :rules="[rules.required]"
-            background-color="white"
-            ></v-text-field>
-          </v-col> 
-
-        </v-row>
-
+          </v-col>
+        </v-row> 
 			</v-form>
 		  </v-card-text>
       <v-card-actions>
         <v-row justify="center" justify-sm="end">
           <v-btn
-            large  
+            x-large  
             elevation="3"
             dark
             color="primary"
@@ -160,15 +143,16 @@
           </v-btn>
         </v-row>
       </v-card-actions>
-      </v-card>
-      </v-col>
-    </v-row>
+    </v-card>
   </v-container>
 </template>
 
 <script>
   import { mask } from 'vue-the-mask';
   import motives from "../assets/json/permisos.json";
+  import axios from "axios"
+  import {mapState,mapMutations} from 'vuex'
+
   export default {
     directives: {
       mask,
@@ -177,26 +161,21 @@
 	  return {
       valid: true,
       loading: false,
-
-      show: false,
-      //Representant info
+      
+      //Temporary pass information
+      temporaryPassData:{
       name:'',
       lastname:'',
       email: '',
-
-      phone:'',
-      password:'',
-
-      //Pyme
-      pymeName:'',
-      pymeRut:'',
-
-      
-      snackBarColor:'primary',
-      credentialValidation: false,
-      credentialValidationText: '',
+      reason:'',
+      rut:'',
+      address:'',
+      },
+  
+      snackBarColor:'success',
+      statusForm: false,
+      statusFormText: '',
       timeout: 4000,
-      phoneMask :"#-####-####",
       rules: {
         required: value => !!value || 'Campo Requerido.',
         email: value => {
@@ -204,7 +183,6 @@
           return pattern.test(value) || 'Correo no válido.'
         },
         alpha: value => this.haveNumber(value) || 'Ha ingresado un caracter no válido',
-        password: value => (value.length > 8 && value.length < 25) || 'La contraseña debe tener entre 8 y 25 caracteres',
       }
       
 	  }
@@ -217,10 +195,12 @@
     }
   },
 	methods:{
+    ...mapMutations(['setCurrentStep','setTemporaryPassData']),
     validate () {
         if(this.$refs.form.validate()){
           console.log("Formulario re válido")
           this.loading = true
+          this.sendForm()
         }
         else
           console.log("ksi")
@@ -237,33 +217,34 @@
           return true;
         }
       },
+      async sendForm(){
+        await axios.post('http://localhost:9090/virtual_platform/newTemporarypass', 
+        this.temporaryPassData
+        ).then(response => {
+          this.setSnackBar("success", "Se ha generado el permiso exitosamente")
+          this.setTemporaryPassData(response.data)
+          this.$refs.form.reset()
+          this.loading = false
+          this.setCurrentStep(2)
+
+        }).catch(e => { 
+          console.log(e); 
+          this.setSnackBar("error", "Ha ocurrido un error")
+          this.loading = false
+          
+          });
+      },
+      setSnackBar(color, msg){
+        this.snackBarColor = color
+        this.statusForm = true
+        this.statusFormText = msg
+      }
 	},
 	mounted(){
 	}
   }
 </script>
 <style scoped lang="css">
-  
-  .glass {
-	width: 100%;
-	height: 100%;
-	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);   
-	border-radius: 5px;
-	background-color: rgba(255, 255, 255, .76);
-	backdrop-filter: blur(5px);
-  }
-  .background{
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: absolute;
-	background-image: url(../assets/background.png);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-  }
-  
   .titleName{
 	font-family: 'Lato', sans-serif;
 	word-break: normal; 

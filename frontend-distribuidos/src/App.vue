@@ -26,21 +26,20 @@
       </div>
 
     </v-app-bar>
-
     <v-main>
-      <Form/>
+      <router-view/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Form from './components/Form';
+import Home from './views/Home';
 
 export default {
   name: 'App',
 
   components: {
-    Form,
+    Home,
   },
 
   data: () => ({

@@ -33,6 +33,9 @@ public class TemporaryPass{
     @NotNull
     String reason;
 
+    @NotNull
+    String email;
+
     @Nullable 
     private Date requestDate;
 
@@ -44,65 +47,13 @@ public class TemporaryPass{
     }
 
     public TemporaryPass(String name, String lastname, String rut, String address, 
-                        String reason){
+                        String reason, String email){
         this.name = name;
         this.lastname = lastname;
         this.rut = rut;
         this.address = address;
         this.reason = reason;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public Date getRequestDate() {
-        return requestDate;
+        this.email = email;
     }
 
     public void setRequestDate(Date requestDate) {
