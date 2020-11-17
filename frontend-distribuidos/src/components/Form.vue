@@ -1,18 +1,5 @@
 <template >
   <v-container>
-    <v-snackbar
-        v-model="statusForm"
-        :color="snackBarColor"
-        :timeout="timeout"
-        top>
-        {{statusFormText}}
-        <v-btn
-          dark
-          text
-          @click="statusForm = false">
-          <v-icon>mdi-close-circle-outline</v-icon>
-        </v-btn>
-    </v-snackbar>
   <v-card
     color="transparent"
     outlined
@@ -172,10 +159,6 @@
       address:'',
       },
   
-      snackBarColor:'success',
-      statusForm: false,
-      statusFormText: '',
-      timeout: 4000,
       rules: {
         required: value => !!value || 'Campo Requerido.',
         email: value => {
@@ -195,15 +178,13 @@
     }
   },
 	methods:{
-    ...mapMutations(['setCurrentStep','setTemporaryPassData']),
+    ...mapMutations(['setCurrentStep','setTemporaryPassData','setSnackBar']),
     validate () {
         if(this.$refs.form.validate()){
           console.log("Formulario re válido")
           this.loading = true
           this.sendForm()
         }
-        else
-          console.log("ksi")
       },
       haveNumber(name){
         if (typeof(name) != "undefined") {
@@ -221,7 +202,7 @@
         await axios.post('http://localhost:9090/virtual_platform/newTemporarypass', 
         this.temporaryPassData
         ).then(response => {
-          this.setSnackBar("success", "Se ha generado el permiso exitosamente")
+          this.setSnackBar({color:"success", msg:"Se ha generado el permiso exitosamente"})
           this.setTemporaryPassData(response.data)
           this.$refs.form.reset()
           this.loading = false
@@ -229,16 +210,11 @@
 
         }).catch(e => { 
           console.log(e); 
-          this.setSnackBar("error", "Ha ocurrido un error")
+          this.setSnackBar({color:"error", msg:"Ha ocurrido un error"})
           this.loading = false
           
           });
       },
-      setSnackBar(color, msg){
-        this.snackBarColor = color
-        this.statusForm = true
-        this.statusFormText = msg
-      }
 	},
 	mounted(){
 	}

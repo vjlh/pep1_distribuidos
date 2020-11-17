@@ -4,6 +4,19 @@
         fluid
         class="background"
         >
+        <v-snackbar
+        v-model="snackBar.status"
+        :color="snackBar.color"
+        :timeout="snackBar.timeout"
+        top>
+        {{snackBar.msg}}
+        <!--v-btn
+          dark
+          text
+          @click="statusForm = false">
+          <v-icon>mdi-close-circle-outline</v-icon>
+        </v-btn-->
+      </v-snackbar>
         <v-row
           align="center"
           justify="center"
@@ -34,8 +47,16 @@ export default {
     Form,
     Verification
   },
+  data() {
+    return {
+      snackBarColor:'success',
+      statusForm: false,
+      statusFormText: '',
+      timeout: 4000,
+    }
+  },
   computed: {
-    ...mapState(['currentStep']),
+    ...mapState(['currentStep','snackBar']),
   },
   mounted() {
     this.setCurrentStep(1)

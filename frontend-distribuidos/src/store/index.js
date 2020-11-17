@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentStep:1,
-    temporaryPassData:[]
+    temporaryPassData:[],
+    snackBar:{status:false, color:"success", msg:"Se ha generado el permiso exitosamente", timeout:4000}
   },
   mutations: {
     setCurrentStep(state, newValue){
@@ -14,6 +15,11 @@ export default new Vuex.Store({
     },
     setTemporaryPassData(state, newData){
       state.temporaryPassData = newData 
+    },
+    setSnackBar(state, newValue){
+      state.snackBar.color = newValue.color
+      state.snackBar.msg = newValue.msg
+      state.snackBar.status = true
     }
   },
   actions: {
