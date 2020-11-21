@@ -3,7 +3,7 @@
   <v-card 
     outlined
     >
-    <v-card-title class="justify-center"> <h2 class="titleName">Permiso Generado Exitósamente</h2></v-card-title>
+    <v-card-title class="justify-center"> <h2 class="titleName">Permiso Generado Exitosamente</h2></v-card-title>
     <v-divider/>
     
     <v-card-text>

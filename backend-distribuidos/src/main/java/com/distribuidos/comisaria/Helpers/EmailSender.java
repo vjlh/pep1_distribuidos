@@ -25,7 +25,7 @@ public class EmailSender {
         });
         Message msg = new MimeMessage(session);
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(temporaryPass.getEmail()));
-        msg.setSubject("Permiso exitósamente generado");
+        msg.setSubject("Permiso exitosamente generado");
         msg.setSentDate(new Date());
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent("<p> Estimado/a " + temporaryPass.getName() + " " + temporaryPass.getLastname() + ", se ha generado un permiso temporal a su nombre con la siguiente información:</p>\n" + 
