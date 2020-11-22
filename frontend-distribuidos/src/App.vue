@@ -5,25 +5,7 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <h1 class="titlePage">Comisaría Virtual</h1>
 
     </v-app-bar>
     <v-main>
@@ -47,3 +29,13 @@ export default {
   }),
 };
 </script>
+<style scoped>
+.titlePage{
+	font-family: 'Lato', sans-serif;
+	word-break: normal; 
+	font-size: 40px;
+	line-height : 20px;
+	font-weight: 400;
+	color: #ffffff;
+  }
+</style>

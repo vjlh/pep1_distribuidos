@@ -40,7 +40,7 @@
           <h2 class="dataStyle">Fecha:</h2>
         </v-col>
         <v-col cols="7">
-          <h2 class="itemStyle">{{startPass[0]}}</h2>
+          <h2 class="itemStyle">{{date}}</h2>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -51,7 +51,7 @@
             <h2 class="dataStyle">Hora de inicio:</h2>
           </v-col>
           <v-col cols="7">
-            <h2 class="itemStyle">{{startPass[1].split('.')[0]}}</h2>
+            <h2 class="itemStyle">{{startPass}}</h2>
           </v-col>
       </v-row>    
       <v-row justify="center">
@@ -62,7 +62,7 @@
             <h2 class="dataStyle">Hora de término:</h2>
           </v-col>
           <v-col cols="7">
-            <h2 class="itemStyle">{{endPass[1].split('.')[0]}}</h2>
+            <h2 class="itemStyle">{{endPass}}</h2>
           </v-col>
       </v-row>
         <v-subheader>Información del solicitante</v-subheader>
@@ -136,8 +136,9 @@
 	data() {
 	  return {
       loading:false,
-      startPass:[],
-      endPass:[],
+      startPass:'',
+      endPass:'',
+      date:'',
 	  }
   },
   computed: {
@@ -147,8 +148,13 @@
     ...mapMutations(['setCurrentStep'])
 	},
 	beforeMount() {
-    this.startPass = this.temporaryPassData.requestDate.split('T');
-    this.endPass = this.temporaryPassData.limitDate.split('T');
+    const months = ["enero", "febrero", "marzo","abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    let requestDate = new Date(this.temporaryPassData.requestDate)
+    this.date = requestDate.getDate() + " de " + months[requestDate.getMonth()] + " de " + requestDate.getFullYear()
+    let limitTime = new Date(this.temporaryPassData.limitDate)
+    
+    this.startPass = requestDate.getHours() +":" + requestDate.getMinutes()
+    this.endPass = limitTime.getHours() +":" + limitTime.getMinutes()
   },
   mounted() {
     axios.post('http://localhost:9090/virtual_platform/sendEmail', this.temporaryPassData)
