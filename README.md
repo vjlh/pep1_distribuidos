@@ -1,6 +1,4 @@
-# Distribuidos
-
-[PEP 1](https://github.com/vjlh/pep1_distribuidos/wiki/PEP-1)
+# Pep 1
 
 # Desarrollo y Análisis de sistema legado
 
