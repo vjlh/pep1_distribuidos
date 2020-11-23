@@ -1,4 +1,6 @@
 # Pep 1
+#### Valentina Ligueño
+#### Alberto Rodríguez
 
 # Desarrollo y Análisis de sistema legado
 
