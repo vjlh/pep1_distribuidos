@@ -157,7 +157,7 @@
     this.endPass = limitTime.getHours() +":" + limitTime.getMinutes()
   },
   mounted() {
-    axios.post('https://34.120.129.229/virtual_platform/sendEmail', this.temporaryPassData)
+    axios.post('http://34.120.129.229/virtual_platform/sendEmail', this.temporaryPassData)
     .then(response => {
           console.log("Todo correcto")
 
