@@ -201,7 +201,7 @@
         }
       },
       async sendForm(){
-        await axios.post('https://34.95.137.174/virtual_platform/newTemporarypass', 
+        await axios.post('https://34.120.129.229/virtual_platform/newTemporarypass', 
         this.temporaryPassData
         ).then(response => {
           this.setSnackBar({color:"success", msg:"Se ha generado el permiso exitosamente"})
