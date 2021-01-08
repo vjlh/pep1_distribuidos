@@ -101,9 +101,7 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>2.6.0</version>
 				<configuration>
-						<from>
-							<image>gcr.io/distroless/java:11</image>
-						</from>
+						<from><image>gcr.io/distroless/java:11@sha256:e99eb6cf88ca2df69e99bf853d65f125066730e3e9f7a233bd1b7e3523c144cb</image></from>
 						<to>
 							<image>registry.hub.docker.com/hiashish/spring-boot-jib-image</image>
 						</to>
