@@ -7,6 +7,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 @Data
 @Entity
@@ -57,7 +59,9 @@ public class TemporaryPass{
     }
 
     public void setRequestDate(Date requestDate) {
-        Calendar calendar = Calendar.getInstance();
+        Locale aLocale = new Locale("es","CL");
+        TimeZone zone = TimeZone.getTimeZone("America/Santiago");
+        Calendar calendar = Calendar.getInstance(zone,aLocale);
         this.requestDate = calendar.getTime();
     }
 
@@ -70,7 +74,9 @@ public class TemporaryPass{
     }
 
     public Date sumarHoras(Date date, int hours){
-        Calendar calendar = Calendar.getInstance();
+        Locale aLocale = new Locale("es","CL");
+        TimeZone zone = TimeZone.getTimeZone("America/Santiago");
+        Calendar calendar = Calendar.getInstance(zone, aLocale);
         calendar.setTime(date);
         calendar.add(Calendar.HOUR, hours);
         return  calendar.getTime();

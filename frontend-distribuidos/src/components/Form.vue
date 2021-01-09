@@ -205,11 +205,7 @@
         this.temporaryPassData
         ).then(response => {
           this.setSnackBar({color:"success", msg:"Se ha generado el permiso exitosamente"})
-          console.log('temporary pass data: ' + this.temporaryPassData)
-          console.log(this.temporaryPassData)
           this.setTemporaryPassData(response.data)
-          console.log('temporary pass data: ' + response.data)
-          console.log(response.data)
           this.$refs.form.reset()
           this.loading = false
           this.setCurrentStep(2)
