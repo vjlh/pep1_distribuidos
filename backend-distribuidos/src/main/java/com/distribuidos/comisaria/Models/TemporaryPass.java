@@ -59,10 +59,13 @@ public class TemporaryPass{
     }
 
     public void setRequestDate(Date requestDate) {
+        System.out.println(requestDate);
         Locale aLocale = new Locale("es","CL");
         TimeZone zone = TimeZone.getTimeZone("America/Santiago");
-        Calendar calendar = Calendar.getInstance(zone,aLocale);
+        Calendar calendar = Calendar.getInstance(zone, aLocale);
         this.requestDate = calendar.getTime();
+        System.out.println(this.requestDate);
+        
     }
 
     public Date getLimitDate() {

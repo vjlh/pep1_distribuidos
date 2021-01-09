@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class EmailSender {
@@ -27,10 +28,13 @@ public class EmailSender {
         });
         Message msg = new MimeMessage(session);
         //String pattern = "dd-MM-yyyy HH:mm";
+        TimeZone timezone = TimeZone.getTimeZone("America/Santiago");
         String pattern1 = "dd 'de' MMMMM 'de' yyyy";
         String pattern2 = "HH:mm";
         SimpleDateFormat simpleDateFormatFecha = new SimpleDateFormat(pattern1, new Locale("es", "CL"));
         SimpleDateFormat simpleDateFormatHora = new SimpleDateFormat(pattern2, new Locale("es", "CL"));
+        simpleDateFormatFecha.setTimeZone(timezone);
+        simpleDateFormatHora.setTimeZone(timezone);
         
         String requestDateDate = simpleDateFormatFecha.format(temporaryPass.getRequestDate());
         String requestDate = simpleDateFormatHora.format(temporaryPass.getRequestDate());
