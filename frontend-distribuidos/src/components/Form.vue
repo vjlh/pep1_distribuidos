@@ -152,12 +152,12 @@
       
       //Temporary pass information
       temporaryPassData:{
-      name:'',
-      lastname:'',
-      email: '',
-      reason:'',
-      rut:'',
-      address:'',
+        name:'',
+        lastname:'',
+        email: '',
+        reason:'',
+        rut:'',
+        address:'',
       },
   
       rules: {
@@ -205,7 +205,11 @@
         this.temporaryPassData
         ).then(response => {
           this.setSnackBar({color:"success", msg:"Se ha generado el permiso exitosamente"})
+          console.log('temporary pass data: ' + this.temporaryPassData)
+          console.log(this.temporaryPassData)
           this.setTemporaryPassData(response.data)
+          console.log('temporary pass data: ' + response.data)
+          console.log(response.data)
           this.$refs.form.reset()
           this.loading = false
           this.setCurrentStep(2)
@@ -235,8 +239,10 @@
         return digv == realDigv
     },
     formatRut(){
-      let value = this.temporaryPassData.rut.replace(/[.-]/g, '').replace( /^(\d{1,2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4')
-      this.temporaryPassData.rut = value
+      if(this.temporaryPassData.rut != '' && this.temporaryPassData.rut != null && this.temporaryPassData.rut != 'undefined'){
+        let value = this.temporaryPassData.rut.replace(/[.-]/g, '').replace( /^(\d{1,2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4')
+        this.temporaryPassData.rut = value
+      }
     }
 	},
 	mounted(){
