@@ -23,39 +23,80 @@ A continuación se presentan imágenes de cada funcionalidad en el sistema imple
 1. Confirmación por correo
 ![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/Funcionalidad3.png "Confirmación por correo del permiso generado")
 
-## Arquitectura
+## Nueva Arquitectura
 
-La siguiente arquitectura computacional descrita en la siguiente figura, basada en el sitio comisaria virtual
+La nueva arquitectura se presenta en la imagen de a continuación, donde gracias a Kubernetes se tiene 1 instancias de backend, que puede replicarse cuando es necesario, esto será explicado con mayor detalle más adelante, por ejemplo en la arquitectura son 3 veces, pueden ser mínimo 1 y máximo 5 réplicas. Además se tiene 3 réplicas de la base de datos, estas son solo de lectura.
 
-![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/Arquitectura.png "Arquitectura")
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/Arquitectura-PEP2.png "Nueva arquitectura")
+
 
 ## Análisis del sistema
 
-| Características | Descripción | ¿Posee el sistema la característica? |
-| ------------- | ------------- | ------------- |
-| Disponibilidad de recursos | Facilita a los usuario acceder de forma fácil a recursos compartidos y compartir sus propios recursos de forma controlada, de esta forma se puede disminuir el costo y la capacidad de procesamiento (porque los usuarios puede tener equipos sin una gran capacidad de procesamiento).  | Este sistema no cumple este punto, porque no se accede a ningún recurso remoto, ya que la plataforma implementada solo permite solicitar el permiso, si quisiera volver a acceder a él, no se puede porque solo se le muestra una vez, cuando es generado. Además como todos los recursos se encuentran almacenados en un mismo equipo, si llegase a existir una falla, no se tiene cuenta con ninguna estrategia de resguardo para que el sistema siga funcionando. |
-| Transparencia | Corresponde a esconder el hecho que los procesos y recursos están físicamente distribuidos en múltiples computadores, para lograr la transparencia debe contar con, acceso, ubicación, migración, re-ubicación, replicación, concurrecia, fallo y persistencia. | El sistema no cumple con este punto tampoco, debido a que los procesos están todos ubicados de manera local, es decir, no existe una distribución   de este en distintos componentes.|
-| Apertura | Un sistema distribuido abierto es aquel que ofrece servicios bajo reglas estándar (sintaxis y semántica), es decir, que nuevos servicios se pueden añadir sin perjudicar ni duplicar a los ya existentes | Debido a la simpleza del sistema implementado y como este fue construido, con una sintaxis y semántica clara y estándar, es fácil expandirlo, es decir agregarle más componentes y funcionalidades, puede ser fácilmente extendido. Esto se puede ver por ejemplo, que se implementa la arquitectura mediante API REST, los sistemas se comunican mediante el protocolo HTTP.
-| Escalabilidad | Se define como la capacidad que tiene un sistema para aumentar o disminuir su capacidad de respuesta. Existe dos tipos de escalabilidad, la vertical (aumenta la capacidad de sus recursos) y la horizontal (aumenta la cantidad de sus recursos). Existen tres técnicas básicas de escalar: Particionar, Replicación y Caché. | Esta arquitectura no es escalable, porque no cumple ninguna de las técnicas básicas mencionada en la descripción. No existe replica de la base de datos, del backend y frontend. La base de datos no está particionada, por lo que no se puede realizar consultas en distintos equipos, esto aumenta la lentitud de la base de datos. Tampoco se implementa caché, ya que siempre se accede a la base datos, no existe un recurso auxiliar para aumentar el tiempo de respuesta. Es muy probable que si se realiza una alta cantidad de solicitudes, se produzcan cuellos de botella dentro del sistema.|
+### Nuevas herramientas utilizadas
 
-## Capacidad de respuesta del sistema
+1. Docker
+2. Kubernetes
+3. Google Cloud
 
-Para poder determinar la capacidad de respuesta del sistema backend, se utilizó una herramienta llamada Artillery.io, que permite crear pruebas de carga en aplicaciones. Se realiza un script donde se colocan todos lo parametros para realizar los test. Cada script se compone de dos partes, la configuración (o config) que detallan los ajustes del objetivo a probar y los escenarios que sería la descripción de lo que consultará cada usuario generado.
+## Características y Modificaciones
 
-![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/Artillery.png "Test")
+Para la primera implementación, en base al análisis hecho al sistema, se concluyó que la aplicación no cumplía con ninguna característica de un sistema distribuido. En esta entrega se intentó mejorar esto, esto a través de la selección de dos características de sistemas distribuidos y su posterior implementación en la plataforma. Las características implementadas son entonces:
 
-En la siguiente tabla se muestra la cantidad de solicitudes que se hicieron por segundo. En la primera columna se muestra la cantidad de solicitudes que se hicieron, para despues en la segunda y tercera columna saber cuantas de las totales se completaron (una muestra el porcentaje completo). Se muestra la cantidad de solicitudes promedio completadas por segundo y al final el mínimo y máximo timepo de respuesta de cada solicitud. (en minisegundos).
+1. Escalabilidad: Para lograr este punto se replicó el Backend, con la herramienta Kubernetes, a través de la plataforma de Google Cloud. Las características de esta replicación consistieron en desplegar la imagen del backend desarrollado en Springboot en un clúster de Kubernetes, con este despliegue se creó una carga de trabajo con la importante característica de la replicación, con un número mínimo de 1 pods y un máximo de 5. Finalmente para poder gestionar estas réplicas se crea servicio para exponer la carga de trabajo, este servicio permite acceder al backend desde una IP única, y este gestiona internamente a qué réplica enviar las consultas. Estas réplicas son autoescalables, lo que quiere decir que se van generando a medida que van siendo requeridos, como se ve en la siguiente imagen:
 
-| Cantidad | Completado | %       | Respuesta media/seg | Tiempo de respuesta promedio (mseg) |
+![Adaptación dinámica horizontal](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/car-ct.png)
+
+Por ejemplo cuando sometimos el backend a las pruebas de rendimiento con Artillery, los pods se gestionaron de la siguiente forma:
+
+* Con un número prueba de 2000 consultas se gestionaron 2 pods
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/2000-req-pod.png)
+
+* Con un número prueba de 5000 consultas se gestionaron 3 pods
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/5000-req-pod.png)
+
+* Con un número prueba de 10000 consultas se gestionaron los 5 pods, que es la máxima cantidad.
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/10000-req-pod.png)
+
+Sin embargo, a pesar del perfil de autoescalado del backend, el rendimiento del programa solo permitió elevar el número de consultas de aproximadamente 3.000 a aproximadamente 6000, esto se puede explicar porque sin importar el número de instancias que se tenga del backend, la base de datos es la causante de un "cuello de botella" que no permite alojar más de 50 consultas simultáneas, sin importar el número de consultas que le hicimos con Artillery este número no aumentó como se ve en la imagen siguiente.
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/Max-consultas.png)
+
+De hecho en el siguiente gráfico, que muestra el número de byte de entrada y de salida, se puede ver cuando el sistema deja de responder bien, en un principio estos dos números iban parejos y cuando ya se le hizo un número de consultas muy grande, el número de byte de entrada se disparó y no así el de salida, ya que no fue capaz de dar abasto con tal cantidad de peticiones.
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/byte-in-off-2.png)
+
+
+2. Disponibilidad de Recursos: Esto se logra a través de las 3 réplicas de lectura hechas a la base de datos, la lectura se utiliza una vez generado el permiso, cuando este se muestra por pantalla y se le envía por correo al usuario solicitante, estas réplicas fueron creados desde de Google Cloud, específicamente a través Cloud SQL, sin embargo como el fuerte de la aplicación corresponde a la escritura, la realización de esta replicación no influyó en gran medida a aumentar el nivel de respuesta de la plataforma.
+
+![Replicas de Lectura](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/Replicas%20db.png)
+
+## Capacidad del sistema
+
+### Herramienta de prueba utilizada
+
+Para conocer la capacidad de respuesta que tiene el nuevo sistema se utiliza nuevamente la herramienta Artillery.io, la cual permite crear pruebas de cargas en las aplicaciones. Es importante destacar que las conexiones que crea Artillery son mediante el protocolo TCP, por lo que en general se presenta latencia en las solicitudes, sim embargo, pueden ocurrir errores si el tiempo de respuesta por defecto es excedido. El caso de prueba realizada corresponde a un POST al backend. Para esto se utilizó el archivo que aparece en la siguiente imagen:
+
+![alt text](https://github.com/vjlh/pep1_distribuidos/blob/master/images/pep2/Artillery-pep2.png)
+
+Como se dijo en el punto anterior son realizadas pruebas desde 2000 peticiones en adelante (como las 2000 peticiones se completaron exitosamente, se asume que un número inferior de peticiones será igual). Se realizó 2000, 4000, 8000 y 10000 peticiones en cada prueba, arrojando la siguiente tabla:
+
+| Cantidad | Completado | %       | Respuesta media/seg | Tiempo de respuesta max (seg) |
 |----------|------------|---------|---------------------|--------------------|
-| 10       | 10         | 100%    | 7,63                | 8,15  |
-| 50       | 50         | 100%    | 35,97               | 14,3  |
-| 100      | 100        | 100%    | 70,92               | 14,9  |
-| 500      | 500        | 100%    | 173,61              | 15,3  |
-| 1000     | 1000       | 100%    | 194,55              | 15,55 |
-| 2000     | 2000       | 100%    | 225,48              | 18,85 |
-| 3000     | 3003       | 100%    | 226,78              | 50,2  |
-| 4000     | 3047       | 76,175% | 232,56              | 50,45 |
-| 5000     | 3063       | 61,26%  | 307,5               | 52,1  |
+| 2000     | 2000       | 100%    | 18.48              | 60.7  |
+| 4000     | 4000       | 100% | 27.78              | 78.4  |
+| 5000     | 4758       | 95,16%  | 32.48              | 88.3  |
+| 8000     | 6081       | 76,01%  | 36.52              | 103.3  |
+| 10000    | 6865       | 68,65%  | 45.66               | 189.9 | 
 
-Al observar la tabla podemos darnos cuenta, que cuando las solicitudes sobrepasan la cantidad de 4000, disminuye la cantidad de solicitudes completada con éxito, además por cada prueba realizada, aumenta el tiempo de respuesta promedio, el cual pasa de 8,15 mseg con 10 solicitudes a 52,1 con 5000 solicitudes. Con los datos observados en la tabla, el sistema como está implementado ahora, solo es capaz de soportar aproximadamente 3000 solicitudes. Finalmente se concluye que la cantidad de solicitudes aumentaría significativamente si el sistema cumpliera con las características de un sistema distribuido.
+## Conclusiones
+
+En base a los resultados obtenidos se puede determinar que:
+
+* Respecto a las solicitudes completadas con éxito, claramente al probar de manera local estas tendrán un mayor porcentaje, ya que no se enfrentan a problemas de conexión al viajar por la red como el resto de los casos. Sin embargo, la implementación de kubernetes permite brindar una mayor respuesta, pero sigue sin lograr responder a todas las solicitudes, lo cual puede ser debido a que se genera un cuello de botella en la base de datos, por lo que la opción para solucionarlo es particionarla.
+
+* La importancia de la arquitectura de google cloud, ya que permite generar de manera rápida sistemas distribuidos.
+
+* Si bien los sistemas distribuidos ayudan a mejorar el rendimiento de un sistema, su implementación se vuelve más compleja.
